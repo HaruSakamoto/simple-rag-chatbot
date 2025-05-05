@@ -8,7 +8,6 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-# Set up Gemini API key
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 CHROMA_PATH = "chroma"
@@ -54,7 +53,7 @@ def main():
 
     # Output response and sources
     sources = [doc.metadata.get("source", None) for doc, _ in results]
-    formatted_response = f"Response: {response_text}\nSources: {sources}"
+    formatted_response = f"Answer: {response_text}\nSources: {sources}"
     print(formatted_response)
 
 
