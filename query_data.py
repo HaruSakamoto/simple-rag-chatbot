@@ -4,6 +4,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.prompts import ChatPromptTemplate
 import google.generativeai as genai
 import os
+import json
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -52,10 +53,12 @@ def main():
     response_text = response.text
 
     # Output response and sources
-    sources = [doc.metadata.get("source", None) for doc, _ in results]
-    formatted_response = f"Answer: {response_text}\nSources: {sources}"
-    print(formatted_response)
-
+    sources = [doc.metadata.get("source", "unknown") for doc, _ in results]
+    output = {
+        "answer": response_text,
+        "sources": sources
+    }
+    print(json.dumps(output, indent=2))
 
 if __name__ == "__main__":
     main()
