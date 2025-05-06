@@ -1,6 +1,7 @@
 import pytest
 from app import generate_answer
 
+
 # You should ideally mock the database here, but for simple tests:
 def test_generate_answer_no_results(monkeypatch):
     class DummyDB:
@@ -11,6 +12,7 @@ def test_generate_answer_no_results(monkeypatch):
     answer, sources = generate_answer("What is the purpose of life?")
     assert answer == "No relevant results found."
     assert sources == []
+
 
 def test_generate_answer_with_results(monkeypatch):
     class DummyDoc:
