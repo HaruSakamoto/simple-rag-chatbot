@@ -1,6 +1,8 @@
 import os
-from create_database import split_text, load_documents, save_to_chroma
+
 from langchain.schema import Document
+
+from create_database import load_documents, save_to_chroma, split_text
 
 
 def test_split_text_returns_chunks():

@@ -1,10 +1,11 @@
-import streamlit as st
-from langchain_chroma import Chroma
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-import google.generativeai as genai
 import os
 
+import google.generativeai as genai
+import streamlit as st
 from dotenv import load_dotenv
+from langchain_chroma import Chroma
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+
 load_dotenv()
 
 CHROMA_PATH = "chroma"

@@ -1,12 +1,13 @@
 import argparse
+import json
+import os
+
+import google.generativeai as genai
+from dotenv import load_dotenv
+from langchain.prompts import ChatPromptTemplate
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.prompts import ChatPromptTemplate
-import google.generativeai as genai
-import os
-import json
 
-from dotenv import load_dotenv
 load_dotenv()
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
