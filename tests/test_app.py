@@ -27,8 +27,8 @@ def test_generate_answer_with_results(mocker):
             return [(DummyDoc(), 0.9)]
 
     mocker.setattr("app.db", DummyDB())
-    mocker.setattr("app.genai.GenerativeModel", 
-                    lambda model_name: DummyModel())
+    mocker.setattr("app.genai.GenerativeModel",
+                   lambda model_name: DummyModel())
 
     answer, sources = generate_answer("What is the mitochondria?")
     assert "generated answer" in answer.lower()
