@@ -1,7 +1,9 @@
 langchain
 langchain-google-genai
 langchain-community
+langchain_chroma
 chromadb
 python-dotenv
 google-generativeai
 streamlit
+unstructured[md,pdf]
