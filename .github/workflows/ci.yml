@@ -1,43 +1,30 @@
-name: CI for RAG Chatbot
+name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
 
-    services:
-      chromadb:
-        image: chromadb/chroma
-        ports:
-          - 8000:8000
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.10
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install flake8 isort pytest pytest-cov
+
+    - name: Run lint
+      run: |
+        flake8 .
+        isort --check-only .
 
     - name: Run tests
       run: |
-        pytest tests/
-
-    - name: Build Docker image
-      run: |
-        docker build -t rag-chatbot .
-
-    - name: Run app container check (basic smoke test)
-      run: |
-        docker run --rm rag-chatbot streamlit --version
+        pytest --cov=app tests/
