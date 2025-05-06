@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  rag-app:
+    build: .
+    container_name: rag_chatbot
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"  # If using Streamlit
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+    command: streamlit run app.py  # or `python query.py "your question"` for CLI
