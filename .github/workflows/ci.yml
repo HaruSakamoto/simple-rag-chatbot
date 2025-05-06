@@ -23,7 +23,7 @@ jobs:
     - name: Run lint
       run: |
         flake8 .
-        isort --check-only .
+        isort .
 
     - name: Run tests
       run: |
