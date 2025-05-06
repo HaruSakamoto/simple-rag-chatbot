@@ -5,6 +5,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.schema import Document
 import os
 import shutil
+import tiktoken
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -14,14 +15,17 @@ DATA_PATH = "data/books"
 
 api_key = os.getenv("GOOGLE_API_KEY")
 embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
  
 def main():
     generate_data_store()
+
 
 def generate_data_store():
     documents = load_documents()
     chunks = split_text(documents)
     save_to_chroma(chunks)
+
 
 def load_documents():
     loader = DirectoryLoader(DATA_PATH, glob="*.md", use_multithreading=True)
@@ -29,11 +33,17 @@ def load_documents():
     documents = loader.load() + pdf_loader.load()
     return documents
 
+
+def count_tokens(text: str) -> int:
+    encoding = tiktoken.get_encoding("cl100k_base")
+    return len(encoding.encode(text))
+
+
 def split_text(documents: list[Document]):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=300,
-        chunk_overlap=100,
-        length_function=len,
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=count_tokens,
         add_start_index=True,
     )
 

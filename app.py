@@ -13,6 +13,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding)
 
+
 def generate_answer(query_text: str):
     results = db.similarity_search_with_relevance_scores(query_text, k=5)
     if not results or results[0][1] < 0.6:
@@ -33,6 +34,7 @@ def generate_answer(query_text: str):
     response = model.generate_content(prompt)
     sources = [doc.metadata.get("source", "N/A") for doc, _ in results]
     return response.text, sources
+
 
 # Streamlit UI
 st.title("RAG Chatbot")
