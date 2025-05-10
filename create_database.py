@@ -65,7 +65,7 @@ def split_text(documents: list[Document], chunk_size=300, chunk_overlap=20):
 
 def save_to_chroma(docs, persist_path="chroma", embedding_function=None):
     if embedding_function is None:
-        embedding_function=GoogleGenerativeAIEmbeddings(
+        embedding_function = GoogleGenerativeAIEmbeddings(
             model="models/embedding-001"
         )
 
