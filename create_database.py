@@ -1,5 +1,7 @@
+import gc
 import os
 import shutil
+import time
 
 import tiktoken
 from dotenv import load_dotenv
@@ -42,7 +44,7 @@ def count_tokens(text: str) -> int:
 
 def split_text(documents: list[Document], chunk_size=300, chunk_overlap=20):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = chunk_size,
+        chunk_size=chunk_size,
         chunk_overlap=chunk_overlap,
         length_function=count_tokens,
         add_start_index=True,
@@ -61,12 +63,13 @@ def save_to_chroma(chunk: list[Document], persist_path: str = CHROMA_PATH):
     if os.path.exists(persist_path):
         shutil.rmtree(persist_path)
 
-    db = Chroma.from_documents(chunk, embedding, persist_directory=persist_path)
+    db = Chroma.from_documents(chunk, 
+                               embedding, 
+                               persist_directory=persist_path)
     db.persist()
     db = None
 
     # Force garbage collection and wait for file release
-    import gc, time
     gc.collect()
     time.sleep(1)
 

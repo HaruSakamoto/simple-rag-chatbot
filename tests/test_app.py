@@ -27,7 +27,7 @@ def test_generate_answer_with_results(mocker):
             return [(DummyDoc(), 0.9)]
 
     mocker.patch("app.db", DummyDB())
-    mocker.patch("app.genai.GenerativeModel", 
+    mocker.patch("app.genai.GenerativeModel",
                  lambda model_name: DummyModel())
 
     answer, sources = generate_answer("What is the mitochondria?")
