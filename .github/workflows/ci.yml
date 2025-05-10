@@ -25,6 +25,9 @@ jobs:
         flake8 .
         isort .
 
+    - name: Set PYTHONPATH
+      run: echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
+
     - name: Run tests
       run: |
         pytest --cov=app tests/
