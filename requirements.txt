@@ -8,3 +8,4 @@ google-generativeai
 streamlit
 unstructured[md,pdf]
 tiktoken
+pytest-mock

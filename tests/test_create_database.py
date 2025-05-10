@@ -1,6 +1,3 @@
-import shutil
-import time
-
 from langchain.schema import Document
 
 from create_database import count_tokens, load_documents, split_text
@@ -26,9 +23,9 @@ def test_save_to_chroma_creates_dir(tmp_path):
     dummy_doc = Document(page_content="Sample content")
     chroma_path = tmp_path / "chroma_test"
 
-    try:
-        save_to_chroma([dummy_doc], persist_path=str(chroma_path))
-        assert chroma_path.exists()
-    finally:
-        time.sleep(2)
-        shutil.rmtree(chroma_path, ignore_errors=True)
+    class DummyEmbedding:
+        def embed_documents(self, texts): return [[0.0] * 768 for _ in texts]
+        def embed_query(self, text): return [0.0] * 768
+
+    save_to_chroma([dummy_doc], persist_path=str(chroma_path), embedding_function=DummyEmbedding())
+    assert chroma_path.exists()
