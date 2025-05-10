@@ -63,8 +63,8 @@ def save_to_chroma(chunk: list[Document], persist_path: str = CHROMA_PATH):
     if os.path.exists(persist_path):
         shutil.rmtree(persist_path)
 
-    db = Chroma.from_documents(chunk, 
-                               embedding, 
+    db = Chroma.from_documents(chunk,
+                               embedding,
                                persist_directory=persist_path)
     db.persist()
     db = None

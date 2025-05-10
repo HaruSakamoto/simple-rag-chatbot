@@ -32,4 +32,3 @@ def test_save_to_chroma_creates_dir(tmp_path):
     finally:
         time.sleep(2)
         shutil.rmtree(chroma_path, ignore_errors=True)
-        
