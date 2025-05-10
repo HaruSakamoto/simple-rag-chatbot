@@ -14,7 +14,6 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 USE_EMBEDDINGS = os.getenv("USE_EMBEDDINGS", "true").lower() == "true"
 
 if USE_EMBEDDINGS:
-    from langchain_google_genai import GoogleGenerativeAIEmbeddings
     embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 else:
     embedding = None
