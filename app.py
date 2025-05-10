@@ -8,7 +8,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 load_dotenv()
 
-CHROMA_PATH = "chroma"
+CHROMA_PATH = os.getenv("CHROMA_PATH", "chroma")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")

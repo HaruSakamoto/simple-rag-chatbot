@@ -1,16 +1,17 @@
 import os
+import shutil
 
 from langchain.schema import Document
 
-from create_database import load_documents, save_to_chroma, split_text
+from create_database import load_documents, count_tokens, split_text
 
 
 def test_split_text_returns_chunks():
     dummy_docs = [Document(page_content="This is a test document. " * 20)]
-    chunks = split_text(dummy_docs)
+    chunks = split_text(dummy_docs, chunk_size=300)
     assert len(chunks) > 0
     assert isinstance(chunks[0], Document)
-    assert len(chunks[0].page_content) <= 300
+    assert all(count_tokens(c.page_content) <= 300 for c in chunks)
 
 
 def test_load_documents_returns_list():
@@ -21,6 +22,14 @@ def test_load_documents_returns_list():
 
 
 def test_save_to_chroma_creates_dir(tmp_path):
+    from create_database import save_to_chroma
     dummy_doc = Document(page_content="Sample content")
-    save_to_chroma([dummy_doc])
-    assert os.path.exists("chroma")
+    chroma_path = tmp_path / "chroma_test"
+
+    try:
+        save_to_chroma([dummy_doc], persist_path=str(chroma_path))
+        assert chroma_path.exists()
+    finally:
+        import time, shutil
+        time.sleep(2)
+        shutil.rmtree(chroma_path, ignore_errors=True)

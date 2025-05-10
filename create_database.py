@@ -40,10 +40,10 @@ def count_tokens(text: str) -> int:
     return len(encoding.encode(text))
 
 
-def split_text(documents: list[Document]):
+def split_text(documents: list[Document], chunk_size=300, chunk_overlap=20):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
+        chunk_size = chunk_size,
+        chunk_overlap=chunk_overlap,
         length_function=count_tokens,
         add_start_index=True,
     )
@@ -51,20 +51,24 @@ def split_text(documents: list[Document]):
     chunks = text_splitter.split_documents(documents)
     print(f"Split {len(documents)} documents into {len(chunks)} chunks")
 
-    document = chunks[10]
+    document = chunks[0]
     print(document.page_content)
 
     return chunks
 
 
-def save_to_chroma(chunk: list[Document]):
-    if os.path.exists(CHROMA_PATH):
-        shutil.rmtree(CHROMA_PATH)
+def save_to_chroma(chunk: list[Document], persist_path: str = CHROMA_PATH):
+    if os.path.exists(persist_path):
+        shutil.rmtree(persist_path)
 
-    db = Chroma.from_documents(chunk, embedding, persist_directory=CHROMA_PATH)
-
+    db = Chroma.from_documents(chunk, embedding, persist_directory=persist_path)
     db.persist()
-    print(f"Saved {len(chunk)} chunks to {CHROMA_PATH}")
+    db = None
+
+    # Force garbage collection and wait for file release
+    import gc, time
+    gc.collect()
+    time.sleep(1)
 
 
 if __name__ == "__main__":
