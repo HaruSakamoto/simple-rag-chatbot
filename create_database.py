@@ -17,7 +17,12 @@ CHROMA_PATH = "chroma"
 DATA_PATH = "data/books"
 
 api_key = os.getenv("GOOGLE_API_KEY")
-embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+USE_EMBEDDINGS = os.getenv("USE_EMBEDDINGS", "true").lower() == "true"
+
+if USE_EMBEDDINGS:
+    embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+else:
+    embedding = None
 
 
 def main():

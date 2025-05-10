@@ -29,5 +29,7 @@ jobs:
       run: echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
 
     - name: Run tests
+      env:
+        USE_EMBEDDINGS: false
       run: |
-        USE_EMBEDDINGS=false pytest --cov=app tests/
+        pytest --cov=app tests/
