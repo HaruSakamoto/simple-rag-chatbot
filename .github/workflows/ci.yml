@@ -30,4 +30,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest --cov=app tests/
+        USE_EMBEDDINGS=false pytest --cov=app tests/
