@@ -17,7 +17,9 @@ api_key = os.getenv("GOOGLE_API_KEY")
 USE_EMBEDDINGS = os.getenv("USE_EMBEDDINGS", "true").lower() == "true"
 
 if USE_EMBEDDINGS:
-    embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embedding = GoogleGenerativeAIEmbeddings(
+        model="models/embedding-001"
+    )
 else:
     embedding = None
 
@@ -63,8 +65,10 @@ def split_text(documents: list[Document], chunk_size=300, chunk_overlap=20):
 
 def save_to_chroma(docs, persist_path="chroma", embedding_function=None):
     if embedding_function is None:
-        embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    
+        embedding_function=GoogleGenerativeAIEmbeddings(
+            model="models/embedding-001"
+        )
+
     db = Chroma.from_documents(
         documents=docs,
         embedding=embedding_function,

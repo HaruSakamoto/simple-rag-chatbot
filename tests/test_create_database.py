@@ -27,5 +27,7 @@ def test_save_to_chroma_creates_dir(tmp_path):
         def embed_documents(self, texts): return [[0.0] * 768 for _ in texts]
         def embed_query(self, text): return [0.0] * 768
 
-    save_to_chroma([dummy_doc], persist_path=str(chroma_path), embedding_function=DummyEmbedding())
+    save_to_chroma([dummy_doc],
+                   persist_path=str(chroma_path),
+                   embedding_function=DummyEmbedding())
     assert chroma_path.exists()
